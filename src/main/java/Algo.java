@@ -1,7 +1,8 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class Algo {
+
+    static Map<String, String> map = new HashMap<>();
 
     public static void main(String[] args) {
         int[] arr = new int[4];
@@ -47,6 +48,7 @@ public class Algo {
 
 
     public static void calc(int[] nums, int target) {
+        map.clear();
         int[] solveCnt = new int[1];
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -57,25 +59,24 @@ public class Algo {
                 for (int k = 0; k < 4; k++) {
                     if (k == i || k == j) continue;
                     int t3 = nums[k];
-                    // 12 和 34 组合
                     for (int p = 0; p < 4; p++) {
                         if (p == i || p == j || p == k) continue;
                         int t4 = nums[p];
                         int[] nn = {t1, t2, t3, t4};
                         double[] f34 = Basic.doCalc2(t3, t4);
+                        // 12 和 34 组合
                         verify12_34(nn, target, f12, f34, solveCnt);
 
                         // 123 和 4 组合
                         verify123_4(nn, target, f12, t3, t4, solveCnt);
                     }
-
-
                 }
             }
         }
         if (solveCnt[0] == 0) {
-            System.out.println("无解");
+            System.out.println("算" + target + "无解");
         }
+        map.values().forEach(System.out::println);
     }
 
 
@@ -143,7 +144,7 @@ public class Algo {
         }
         String formatter = format_123_4[formatIdx];
         String res = String.format(formatter, nums[0], operands[f12w], nums[1], operands[f123w], nums[2], operands[f1234w], nums[3], target);
-        System.out.println(res);
+        map.putIfAbsent(Basic.simplify(res), res);
     }
 
     public static void print12_34(int[] nums, int target, int f12w, int f34w, int mw) {
@@ -161,7 +162,7 @@ public class Algo {
             f34w = tmp;
         }
         String res = String.format(format_12_34, nums[0], operands[f12w], nums[1], operands[mw], nums[2], operands[f34w], nums[3], target);
-        System.out.println(res);
+        map.putIfAbsent(Basic.simplify(res), res);
     }
 
 }
@@ -184,4 +185,38 @@ class Basic {
         nums[i] = nums[j];
         nums[j] = tmp;
     }
+
+    public static String simplify(String str) {
+        List<String> tokens = getTokens(deleteSpace(str));
+        str = String.join(" ", tokens);
+        return InfixToRPNConverter.convertToRPN(str);
+    }
+
+    public static String deleteSpace(String str) {
+        char[] tgt = new char[str.length()];
+        int right = 0;
+        for (char c : str.toCharArray())
+            if (c != ' ')
+                tgt[right++] = c;
+        return new String(tgt, 0, right);
+    }
+
+    public static List<String> getTokens(String s) {
+        List<String> list = new ArrayList<>();
+        int i = 0;
+        while (i < s.length()) {
+            if (Character.isDigit(s.charAt(i))) {
+                int start = i;
+                while (i < s.length() && Character.isDigit(s.charAt(i))) {
+                    i++;
+                }
+                list.add(s.substring(start, i));
+            } else {
+                list.add(s.charAt(i) + "");
+                i++;
+            }
+        }
+        return list;
+    }
+
 }
