@@ -76,7 +76,7 @@ public class Algo {
         if (solveCnt[0] == 0) {
             System.out.println("算" + target + "无解");
         }
-        map.values().forEach(System.out::println);
+        map.values().stream().map(Basic::deleteSpace).forEach(System.out::println);
     }
 
 
