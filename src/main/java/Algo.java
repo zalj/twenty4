@@ -18,7 +18,7 @@ public class Algo {
             in = in.trim();
             in = in.replaceAll("[ ]{2,}", " ");
             String[] words = in.split(" ");
-            if (words.length <= 4) {
+            if (words.length < 4) {
                 if (words.length > 0) {
                     System.err.println("输入数不够");
                 }
@@ -33,7 +33,7 @@ public class Algo {
                 target = Integer.parseInt(words[4]);
             }
             if (target == 0) {
-                for (int i = 0; i < 140; i++) {
+                for (int i = 0; i < 150; i++) {
                     calc(arr, i);
                 }
             } else {
