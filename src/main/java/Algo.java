@@ -1,20 +1,27 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Algo {
 
     static Map<String, String> map = new HashMap<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         int[] arr = new int[4];
-        Scanner input = new Scanner(System.in);
+        BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
-            String in = input.nextLine();
+            String in = input.readLine();
             if (in == null || in.length() == 0) {
                 continue;
             }
+            in = in.trim();
+            in = in.replaceAll("[ ]{2,}", " ");
             String[] words = in.split(" ");
-            if (words.length < 4) {
-                System.err.println("输入数不够");
+            if (words.length <= 4) {
+                if (words.length > 0) {
+                    System.err.println("输入数不够");
+                }
                 continue;
             }
             arr[0] = Integer.parseInt(words[0]);
@@ -26,7 +33,7 @@ public class Algo {
                 target = Integer.parseInt(words[4]);
             }
             if (target == 0) {
-                for (int i = 1; i < 140; i++) {
+                for (int i = 0; i < 140; i++) {
                     calc(arr, i);
                 }
             } else {
