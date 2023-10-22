@@ -8,12 +8,19 @@ public class Algo {
     static Map<String, String> map = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
+        calculateDeathLoop();
+    }
+
+    private static void calculateDeathLoop() throws IOException {
         int[] arr = new int[4];
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             String in = input.readLine();
             if (in == null || in.length() == 0) {
                 continue;
+            }
+            if (in.equals("quit")) {
+                System.exit(1);
             }
             in = in.trim();
             in = in.replaceAll("[ ]{2,}", " ");
@@ -53,9 +60,7 @@ public class Algo {
             "%d %s (%d %s (" + basicFormat + ")) = %d"
     };
 
-
-    public static void calc(int[] nums, int target) {
-        map.clear();
+    private static int doCalc(int[] nums, int target) {
         int[] solveCnt = new int[1];
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -80,13 +85,19 @@ public class Algo {
                 }
             }
         }
-        if (solveCnt[0] == 0) {
-            System.out.println("算" + target + "无解");
-        }
-        map.values().stream().map(Basic::deleteSpace).forEach(System.out::println);
+        return solveCnt[0];
     }
 
 
+    public static void calc(int[] nums, int target) {
+        map.clear();
+        int solveCnt = doCalc(nums, target);
+        if (solveCnt == 0) {
+            System.out.println("算" + target + "无解");
+            return;
+        }
+        map.values().stream().map(Basic::deleteSpace).forEach(System.out::println);
+    }
 
     public static void verify12_34(int[] nums, int target, double[] f12, double[] f34, int[] solveCnt) {
         for (int i = 0; i < 6; i++) {
