@@ -101,9 +101,9 @@ public class Algo {
 
     public static void verify12_34(int[] nums, int target, double[] f12, double[] f34, int[] solveCnt) {
         for (int i = 0; i < 6; i++) {
-            if (Double.isNaN(f12[i])) continue;
+            if (Double.isNaN(f12[i]) || f12[i] < 0) continue;
             for (int j = 0; j < 6; j++) {
-                if (Double.isNaN(f34[j])) continue;
+                if (Double.isNaN(f34[j]) || f34[j] < 0) continue;
                 double[] rr = Basic.doCalc2(f12[i], f34[j]);
                 for (int rrl = 0; rrl < 6; rrl++) {
                     if (Math.abs(rr[rrl] - target) < 0.00000001d) {
@@ -118,11 +118,11 @@ public class Algo {
 
     public static void verify123_4(int[] nums, int target, double[] f12, int t3, int t4, int[] solveCnt) {
         for (int f12w = 0; f12w < 6; f12w++) {
-            if (Double.isNaN(f12[f12w])) continue;
+            if (Double.isNaN(f12[f12w]) || f12[f12w] < 0) continue;
             double[] f123 = Basic.doCalc2(f12[f12w], t3);
 
             for (int f123w = 0; f123w < 6; f123w++) {
-                if (Double.isNaN(f123[f123w])) continue;
+                if (Double.isNaN(f123[f123w]) || f123[f123w] < 0) continue;
                 double[] f123_4 = Basic.doCalc2(f123[f123w], t4);
                 for (int rrl = 0; rrl < 6; rrl++) {
                     if (Math.abs(f123_4[rrl] - target) < 0.00000001d) {
