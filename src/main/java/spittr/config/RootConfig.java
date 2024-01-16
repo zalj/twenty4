@@ -8,10 +8,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @ComponentScan(basePackages = {"spittr"},
         excludeFilters = {
-            @ComponentScan.Filter(
-                    type = FilterType.ANNOTATION,
-                    classes = {EnableWebMvc.class}
-                    )
+                @ComponentScan.Filter(
+                        type = FilterType.ANNOTATION,
+                        classes = {EnableWebMvc.class}
+                )
         }
 )
 public class RootConfig {

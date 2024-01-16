@@ -15,36 +15,49 @@ public class Algo {
         int[] arr = new int[4];
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
-            String in = input.readLine();
-            if (in == null || in.length() == 0) {
-                continue;
-            }
-            if (in.equals("quit")) {
-                System.exit(1);
-            }
-            in = in.trim();
-            in = in.replaceAll("[ ]{2,}", " ");
-            String[] words = in.split(" ");
-            if (words.length < 4) {
-                if (words.length > 0) {
-                    System.err.println("输入数不够");
+            try {
+                String in = input.readLine();
+                if (in == null || in.length() == 0) {
+                    continue;
                 }
-                continue;
-            }
-            arr[0] = Integer.parseInt(words[0]);
-            arr[1] = Integer.parseInt(words[1]);
-            arr[2] = Integer.parseInt(words[2]);
-            arr[3] = Integer.parseInt(words[3]);
-            int target = 24;
-            if (words.length > 4) {
-                target = Integer.parseInt(words[4]);
-            }
-            if (target == 0) {
-                for (int i = 0; i < 150; i++) {
-                    calc(arr, i);
+                if (in.equals("quit")) {
+                    System.exit(1);
                 }
-            } else {
-                calc(arr, target);
+                in = in.trim();
+                in = in.replaceAll("[ ]{2,}", " ");
+                String[] words = in.split(" ");
+                if (words.length < 4) {
+                    if (words.length > 0) {
+                        System.err.println("输入数不够");
+                    }
+                    continue;
+                }
+                arr[0] = Integer.parseInt(words[0]);
+                arr[1] = Integer.parseInt(words[1]);
+                arr[2] = Integer.parseInt(words[2]);
+                arr[3] = Integer.parseInt(words[3]);
+                int target = 24, lower = 0, upper = 0;
+                boolean range = false;
+                if (words.length == 5) {
+                    target = Integer.parseInt(words[4]);
+                } else {
+                    lower = Integer.parseInt(words[4]);
+                    upper = Integer.parseInt(words[5]);
+                    range = true;
+                }
+                if (range) {
+                    for (int i = lower; i <= upper; i++) {
+                        calc(arr, i);
+                    }
+                } else if (target == 0) {
+                    for (int i = 0; i < 150; i++) {
+                        calc(arr, i);
+                    }
+                } else {
+                    calc(arr, target);
+                }
+            } catch (Exception e) {
+                System.out.println("输入格式有误.");
             }
         }
     }
@@ -93,7 +106,6 @@ public class Algo {
         map.clear();
         int solveCnt = doCalc(nums, target);
         if (solveCnt == 0) {
-            System.out.println("算" + target + "无解");
             return;
         }
         map.values().stream().map(Basic::deleteSpace).forEach(System.out::println);
